@@ -40,7 +40,8 @@ typedef enum {
 typedef enum {
   LM3S69XX_GPIO_DRIVE_2MA,
   LM3S69XX_GPIO_DRIVE_4MA,
-  LM3S69XX_GPIO_DRIVE_8MA
+  LM3S69XX_GPIO_DRIVE_8MA,
+  LM3S69XX_GPIO_DRIVE_12MA
 } lm3s69xx_gpio_drive;
 
 typedef enum {
@@ -92,6 +93,9 @@ typedef enum {
   LM3S69XX_PORT_G,
 #if LM3S69XX_NUM_GPIO_BLOCKS > 7
   LM3S69XX_PORT_H
+#endif
+#if LM3S69XX_NUM_GPIO_BLOCKS > 8
+  LM3S69XX_PORT_J
 #endif
 } lm3s69xx_gpio_port;
 
