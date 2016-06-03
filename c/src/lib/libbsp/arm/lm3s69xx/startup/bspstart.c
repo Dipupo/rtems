@@ -87,7 +87,7 @@ static void init_main_osc(void)
 
 static const lm3s69xx_gpio_config start_config_gpio[] = {
 #ifdef LM3S69XX_ENABLE_UART_0
-#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM4F120 || defined(LM3S69XX_MCU_TM4C129E)
+#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM4F120) || defined(LM3S69XX_MCU_TM4C129E)
   LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_A, 0),
   LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_A, 1),
 #else
