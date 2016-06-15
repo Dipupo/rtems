@@ -23,6 +23,71 @@ static void init_main_osc(void)
 {
   volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
 
+  uint32_t pllfreq0 = syscon->pllfreq0;
+  uint32_t pllfreq1 = syscon->pllfreq1;
+  uint32_t memtim0 = syscon->memtim0;
+  uint32_t pllstat = syscon->pllstat;
+  uint32_t moscctl = syscon->moscctl;
+  uint32_t rsclkcfg = syscon->rsclkcfg;
+  uint32_t ris = syscon->ris;
+  uint32_t dsclkcfg = syscon->dsclkcfg;
+
+
+  moscctl = (moscctl & ~(SYSCONMOSCCTL_NOXTAL | SYSCONMOSCCTL_PWRDN));
+  syscon->moscctl = moscctl;
+
+ while ((syscon->ris & SYSCONRIS_MOSCPUPRIS) == 0)
+      /* Wait for bit to set */;
+
+
+  rsclkcfg |= SYSCONRSCLKCFG_OSCSRC(0x3);
+  syscon->rsclkcfg = rsclkcfg;
+
+  dsclkcfg |= SYSCONDSCLKCFG_DSOSCSRC(0x3);
+  syscon->dsclkcfg = dsclkcfg;
+
+
+  pllfreq0 |= (SYSCONPLLFREQ0_MINT (0x60));
+  pllfreq0 |= (SYSCONPLLFREQ0_MFRAC (0x0));
+
+  syscon->pllfreq0 = pllfreq0;
+
+  pllfreq1 |= (SYSCONPLLFREQ1_N (0x4));
+  pllfreq1 |= (SYSCONPLLFREQ1_Q (0x0));
+
+  syscon->pllfreq1 = pllfreq1;
+
+  pllfreq0 |= (SYSCONPLLFREQ0_PLLPWR);
+  syscon->pllfreq0 = pllfreq0;
+
+  memtim0 |= (SYSCONMEMTIM0_EWS (0x4));
+  memtim0 &= ~(SYSCONMEMTIM0_EBCE);
+  memtim0 |= (SYSCONMEMTIM0_EBCHT (0x6));
+  memtim0 |= (SYSCONMEMTIM0_FWS (0x4));
+  memtim0 &= ~(SYSCONMEMTIM0_FBCE);
+  memtim0 |= (SYSCONMEMTIM0_FBCHT (0x6));
+
+  syscon->memtim0 = memtim0;
+
+/*  rsclkcfg |= SYSCONRSCLKCFG_NEWFREQ;
+
+  syscon->rsclkcfg = rsclkcfg;
+
+*/
+  while ((syscon->pllstat & SYSCONPLLSTAT_LOCK) == 0)
+      /* Wait for PLL lock */;
+
+  rsclkcfg |= (SYSCONRSCLKCFG_PSYSDIV (0x3)); 
+  rsclkcfg |= SYSCONRSCLKCFG_USEPLL; 
+  rsclkcfg |= SYSCONRSCLKCFG_MEMTIMU; 
+
+  syscon->rsclkcfg = rsclkcfg;
+
+  lm3s69xx_syscon_delay_3x_clocks(16);
+
+
+ /* volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
+
   uint32_t sysdiv_val = LM3S69XX_PLL_FREQUENCY / LM3S69XX_SYSTEM_CLOCK;
 #if defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM3S3749)
   assert(sysdiv_val * LM3S69XX_SYSTEM_CLOCK == LM3S69XX_PLL_FREQUENCY);
@@ -38,13 +103,15 @@ static void init_main_osc(void)
   syscon->rcc = rcc;
   syscon->rcc2 = rcc2;
 
+
+
   /*
    As per a note in Stellaris® LM4F120H5QR Microcontroller Data
    Sheet on page 219: "When transitioning the system clock
    configuration to use the MOSC as the fundamental clock source, the
    MOSCDIS bit must be set prior to reselecting the MOSC or an
    undefined system clock configuration can sporadically occur."
-  */
+  
 
   rcc |= SYSCONRCC_MOSCDIS;
   syscon->rcc = rcc;
@@ -54,7 +121,7 @@ static void init_main_osc(void)
   rcc2 = (rcc2 & ~(SYSCONRCC2_PWRDN2 | SYSCONRCC2_OSCSRC2_MSK))
       | SYSCONRCC2_USERCC2 | SYSCONRCC2_OSCSRC2(0x0);
 
-  /* clear PLL lock interrupt */
+  /* clear PLL lock interrupt 
   syscon->misc &= (SYSCONMISC_PLLLMIS);
 
   syscon->rcc = rcc;
@@ -62,7 +129,7 @@ static void init_main_osc(void)
   lm3s69xx_syscon_delay_3x_clocks(16);
 
   /* since now, we'll use only RCC2 as SYSCONRCC2_USERCC2 and XTAL
-     (only available in RCC) are already set */
+     (only available in RCC) are already set/
 
   if (sysdiv_val % 2 == 0) {
       rcc2 = (rcc2 & ~SYSCONRCC2_SYSDIV2_MSK) | SYSCONRCC2_SYSDIV2(sysdiv_val / 2 - 1);
@@ -70,19 +137,20 @@ static void init_main_osc(void)
       rcc2 &= ~(SYSCONRCC2_DIV400);
   }
   else {
-      /* need to use DIV400 */
+      /* need to use DIV400 *
       rcc2 = (rcc2 & ~SYSCONRCC2_SYSDIV2EXT_MSK) | SYSCONRCC2_SYSDIV2EXT(sysdiv_val - 1)
           | SYSCONRCC2_DIV400;
   }
   syscon->rcc2 = rcc2;
 
   while ((syscon->ris & SYSCONRIS_PLLLRIS) == 0)
-      /* Wait for PLL lock */;
+      /* Wait for PLL lock *;
 
   rcc2 &= ~(SYSCONRCC2_BYPASS2);
 
   syscon->rcc2 = rcc2;
   lm3s69xx_syscon_delay_3x_clocks(16);
+*/
 }
 
 static const lm3s69xx_gpio_config start_config_gpio[] = {
@@ -132,7 +200,7 @@ static const lm3s69xx_gpio_config start_config_gpio[] = {
 
 static void init_gpio(void)
 {
-#if LM3S69XX_USE_AHB_FOR_GPIO
+/* #if LM3S69XX_USE_AHB_FOR_GPIO
   volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
 
   syscon->gpiohbctl |= SYSCONGPIOHBCTL_PORTA | SYSCONGPIOHBCTL_PORTB
