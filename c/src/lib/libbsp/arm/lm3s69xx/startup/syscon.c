@@ -109,7 +109,8 @@ void lm3s69xx_syscon_set_pwmdiv(unsigned int div)
   rtems_interrupt_level level;
 
   rtems_interrupt_disable(level);
-  syscon->rcc = (syscon->rcc & ~SYSCONRCC_PWMDIV_MSK) | SYSCONRCC_PWMDIV(div)
+ /* syscon->rcc = (syscon->rcc & ~SYSCONRCC_PWMDIV_MSK) | SYSCONRCC_PWMDIV(div)
       | SYSCONRCC_USEPWMDIV;
+*/  
   rtems_interrupt_enable(level);
 }
