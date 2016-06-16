@@ -46,11 +46,15 @@ static void init_main_osc(void)
   dsclkcfg |= SYSCONDSCLKCFG_DSOSCSRC(0x3);
   syscon->dsclkcfg = dsclkcfg;
 
-
-  pllfreq0 |= (SYSCONPLLFREQ0_MINT (0x60));
-  pllfreq0 |= (SYSCONPLLFREQ0_MFRAC (0x0));
+  pllfreq0 &= ~(SYSCONPLLFREQ0_MINT(0xFFFF));
+  pllfreq0 &= ~(SYSCONPLLFREQ0_MFRAC(0xFFFF));
+  pllfreq0 |= (SYSCONPLLFREQ0_MINT(0x60));
+  pllfreq0 |= (SYSCONPLLFREQ0_MFRAC(0x0));
 
   syscon->pllfreq0 = pllfreq0;
+
+  pllfreq1 &= ~(SYSCONPLLFREQ1_N(0xFFFF));
+  pllfreq1 &= ~(SYSCONPLLFREQ1_Q(0xFFFF));
 
   pllfreq1 |= (SYSCONPLLFREQ1_N (0x4));
   pllfreq1 |= (SYSCONPLLFREQ1_Q (0x0));
@@ -60,10 +64,10 @@ static void init_main_osc(void)
   pllfreq0 |= (SYSCONPLLFREQ0_PLLPWR);
   syscon->pllfreq0 = pllfreq0;
 
-  memtim0 |= (SYSCONMEMTIM0_EWS (0x4));
+  memtim0 |= (SYSCONMEMTIM0_EWS (0x5));
   memtim0 &= ~(SYSCONMEMTIM0_EBCE);
   memtim0 |= (SYSCONMEMTIM0_EBCHT (0x6));
-  memtim0 |= (SYSCONMEMTIM0_FWS (0x4));
+  memtim0 |= (SYSCONMEMTIM0_FWS (0x5));
   memtim0 &= ~(SYSCONMEMTIM0_FBCE);
   memtim0 |= (SYSCONMEMTIM0_FBCHT (0x6));
 
