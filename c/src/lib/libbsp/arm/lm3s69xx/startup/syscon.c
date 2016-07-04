@@ -36,9 +36,9 @@ void lm3s69xx_syscon_enable_gpio_clock(unsigned int port, bool enable)
   rtems_interrupt_disable(level);
 
   if (enable)
-    syscon->rcgc2 |= mask;
+    syscon->rcgcgpio |= mask;
   else
-    syscon->rcgc2 &= ~mask;
+    syscon->rcgcgpio &= ~mask;
 
   delay_3_clocks();
 
@@ -54,9 +54,9 @@ void lm3s69xx_syscon_enable_uart_clock(unsigned int port, bool enable)
   rtems_interrupt_disable(level);
 
   if (enable)
-    syscon->rcgc1 |= mask;
+    syscon->rcgcuart |= mask;
   else
-    syscon->rcgc1 &= ~mask;
+    syscon->rcgcuart &= ~mask;
 
   delay_3_clocks();
 
@@ -66,32 +66,33 @@ void lm3s69xx_syscon_enable_uart_clock(unsigned int port, bool enable)
 void lm3s69xx_syscon_enable_ssi_clock(unsigned int port, bool enable)
 {
   volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
-  uint32_t mask = 1 << (port + 4);
+  uint32_t mask = 1 << port;
   rtems_interrupt_level level;
 
   rtems_interrupt_disable(level);
 
   if (enable)
-    syscon->rcgc1 |= mask;
+    syscon->rcgcssi |= mask;
   else
-    syscon->rcgc1 &= ~mask;
+    syscon->rcgcssi &= ~mask;
 
   delay_3_clocks();
 
   rtems_interrupt_enable(level);
 }
 
-void lm3s69xx_syscon_enable_pwm_clock(bool enable)
+void lm3s69xx_syscon_enable_pwm_clock(unsigned int port, bool enable)
 {
   volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
+  uint32_t mask = 1 << port;
   rtems_interrupt_level level;
 
   rtems_interrupt_disable(level);
 
   if (enable)
-    syscon->rcgc0 |= SYSCONRCGC0_PWM;
+    syscon->rcgcpwm |= mask;
   else
-    syscon->rcgc0 &= ~SYSCONRCGC0_PWM;
+    syscon->rcgcpwm &= ~mask;
 
   delay_3_clocks();
 
@@ -103,14 +104,14 @@ void lm3s69xx_syscon_enable_pwm_clock(bool enable)
  *
  * @note div should be one of SCRCC_PWMDIV_DIV?_VAL constants.
  */
-void lm3s69xx_syscon_set_pwmdiv(unsigned int div)
+ void lm3s69xx_pwm_set_pwmdiv(unsigned int div)
 {
-  volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
+  volatile lm3s69xx_pwm *pwm = LM3S69XX_PWM;
   rtems_interrupt_level level;
 
   rtems_interrupt_disable(level);
- /* syscon->rcc = (syscon->rcc & ~SYSCONRCC_PWMDIV_MSK) | SYSCONRCC_PWMDIV(div)
-      | SYSCONRCC_USEPWMDIV;
-*/  
+ pwm->cc = (pwm->cc & ~PWMCC_PWMDIV_MSK) | PWMCC_PWMDIV(div)
+      | PWMCC_USEPWM;
+  
   rtems_interrupt_enable(level);
-}
+} 
