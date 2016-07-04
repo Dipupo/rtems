@@ -92,9 +92,16 @@ typedef enum {
   LM3S69XX_PORT_F,
   LM3S69XX_PORT_G,
 #if LM3S69XX_NUM_GPIO_BLOCKS > 7
-  LM3S69XX_PORT_H
-#elif LM3S69XX_NUM_GPIO_BLOCKS > 8
-  LM3S69XX_PORT_J
+  LM3S69XX_PORT_H,
+#if LM3S69XX_NUM_GPIO_BLOCKS > 8
+  LM3S69XX_PORT_J,
+  LM3S69XX_PORT_K,
+  LM3S69XX_PORT_L,
+  LM3S69XX_PORT_M,
+  LM3S69XX_PORT_N,
+  LM3S69XX_PORT_P,
+  LM3S69XX_PORT_Q,
+#endif
 #endif
 } lm3s69xx_gpio_port;
 
@@ -144,6 +151,62 @@ typedef enum {
     .slr = LM3S69XX_GPIO_NO_SLEW_RATE_CONTROL \
   }
 
+#define LM3S69XX_PIN_UART_RI(port, idx) \
+  { \
+    .pin_first = LM3S69XX_GPIO_PIN(port, idx), \
+    .pin_last = LM3S69XX_GPIO_PIN(port, idx), \
+    .digital = LM3S69XX_GPIO_DIGITAL_ENABLE, \
+    .alternate = LM3S69XX_GPIO_AF_ENABLE, \
+    .analog = LM3S69XX_GPIO_ANALOG_DISABLE, \
+    .dir = LM3S69XX_GPIO_DIRECTION_INPUT, \
+    .otype = LM3S69XX_GPIO_OTYPE_PUSH_PULL, \
+    .drive = LM3S69XX_GPIO_DRIVE_2MA, \
+    .pull = LM3S69XX_GPIO_PULL_UP, \
+    .slr = LM3S69XX_GPIO_NO_SLEW_RATE_CONTROL \
+  }
+
+#define LM3S69XX_PIN_UART_DTR(port, idx) \
+  { \
+    .pin_first = LM3S69XX_GPIO_PIN(port, idx), \
+    .pin_last = LM3S69XX_GPIO_PIN(port, idx), \
+    .digital = LM3S69XX_GPIO_DIGITAL_ENABLE, \
+    .alternate = LM3S69XX_GPIO_AF_ENABLE, \
+    .analog = LM3S69XX_GPIO_ANALOG_DISABLE, \
+    .dir = LM3S69XX_GPIO_DIRECTION_INPUT, \
+    .otype = LM3S69XX_GPIO_OTYPE_PUSH_PULL, \
+    .drive = LM3S69XX_GPIO_DRIVE_2MA, \
+    .pull = LM3S69XX_GPIO_PULL_UP, \
+    .slr = LM3S69XX_GPIO_NO_SLEW_RATE_CONTROL \
+  }
+
+#define LM3S69XX_PIN_UART_DSR(port, idx) \
+  { \
+    .pin_first = LM3S69XX_GPIO_PIN(port, idx), \
+    .pin_last = LM3S69XX_GPIO_PIN(port, idx), \
+    .digital = LM3S69XX_GPIO_DIGITAL_ENABLE, \
+    .alternate = LM3S69XX_GPIO_AF_ENABLE, \
+    .analog = LM3S69XX_GPIO_ANALOG_DISABLE, \
+    .dir = LM3S69XX_GPIO_DIRECTION_OUTPUT, \
+    .otype = LM3S69XX_GPIO_OTYPE_PUSH_PULL, \
+    .drive = LM3S69XX_GPIO_DRIVE_2MA, \
+    .pull = LM3S69XX_GPIO_NO_PULL, \
+    .slr = LM3S69XX_GPIO_NO_SLEW_RATE_CONTROL \
+  }
+
+#define LM3S69XX_PIN_UART_DCD(port, idx) \
+  { \
+    .pin_first = LM3S69XX_GPIO_PIN(port, idx), \
+    .pin_last = LM3S69XX_GPIO_PIN(port, idx), \
+    .digital = LM3S69XX_GPIO_DIGITAL_ENABLE, \
+    .alternate = LM3S69XX_GPIO_AF_ENABLE, \
+    .analog = LM3S69XX_GPIO_ANALOG_DISABLE, \
+    .dir = LM3S69XX_GPIO_DIRECTION_INPUT, \
+    .otype = LM3S69XX_GPIO_OTYPE_PUSH_PULL, \
+    .drive = LM3S69XX_GPIO_DRIVE_2MA, \
+    .pull = LM3S69XX_GPIO_PULL_UP, \
+    .slr = LM3S69XX_GPIO_NO_SLEW_RATE_CONTROL \
+  }
+
 #define LM3S69XX_PIN_UART_CTS(port, idx) \
   { \
     .pin_first = LM3S69XX_GPIO_PIN(port, idx), \
@@ -174,6 +237,8 @@ typedef enum {
 
 #define LM3S69XX_PIN_SSI_TX(port, idx) LM3S69XX_PIN_UART_TX(port, idx)
 #define LM3S69XX_PIN_SSI_RX(port, idx) LM3S69XX_PIN_UART_RX(port, idx)
+#define LM3S69XX_PIN_SSI_XDAT2(port, idx) LM3S69XX_PIN_UART_TX(port, idx)
+#define LM3S69XX_PIN_SSI_XDAT3(port, idx) LM3S69XX_PIN_UART_RX(port, idx)
 
 #ifdef __cplusplus
 extern "C" {

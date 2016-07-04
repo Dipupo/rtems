@@ -48,6 +48,9 @@ static void set_config(unsigned int pin, const lm3s69xx_gpio_config *config)
   case LM3S69XX_GPIO_DRIVE_8MA:
     gpio->dr8r |= 1 << index;
     break;
+  case LM3S69XX_GPIO_DRIVE_12MA:
+    gpio->dr12r |= 1 << index;
+    break;
   default:
     gpio->dr2r |= 1 << index;
     break;

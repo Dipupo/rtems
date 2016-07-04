@@ -143,7 +143,6 @@ typedef struct  {
 
   uint32_t reserved_1[669];
  
-
   uint32_t pp;
   uint32_t pc;
 } lm3s69xx_gpio;
@@ -204,6 +203,9 @@ uint32_t reserved_0[12];
 #define SYSCONRESC_POR BSP_BIT32(1)
 #define SYSCONRESC_EXT BSP_BIT32(0)
   uint32_t resc;
+
+#define SYSCONPWRTC_VDDA_UBOR BSP_BIT32(4)
+#define SYSCONPWRTC_VDD_UBOR BSP_BIT32(0)
   uint32_t pwrtc;
   uint32_t nmic;
   uint32_t reserved_2[5];
@@ -418,36 +420,116 @@ uint32_t reserved_0[12];
   uint32_t reserved_28[9];
 
   uint32_t sremac;
+
+#define SYSCONRCGCWD_R1 BSP_BIT32(1)
+#define SYSCONRCGCWD_R0 BSP_BIT32(0)
   uint32_t rcgcwd;
+
+#define SYSCONRCGCTIMER_R7 BSP_BIT32(7)
+#define SYSCONRCGCTIMER_R6 BSP_BIT32(6)
+#define SYSCONRCGCTIMER_R5 BSP_BIT32(5)
+#define SYSCONRCGCTIMER_R4 BSP_BIT32(4)
+#define SYSCONRCGCTIMER_R3 BSP_BIT32(3)
+#define SYSCONRCGCTIMER_R2 BSP_BIT32(2)
+#define SYSCONRCGCTIMER_R1 BSP_BIT32(1)
+#define SYSCONRCGCTIMER_R0 BSP_BIT32(0)
   uint32_t rcgctimer;
+
+
+#define SYSCONRCGCGPIO_R14 BSP_BIT32(14)
+#define SYSCONRCGCGPIO_R13 BSP_BIT32(13)
+#define SYSCONRCGCGPIO_R12 BSP_BIT32(12)
+#define SYSCONRCGCGPIO_R11 BSP_BIT32(11)
+#define SYSCONRCGCGPIO_R10 BSP_BIT32(10)
+#define SYSCONRCGCGPIO_R9 BSP_BIT32(9)
+#define SYSCONRCGCGPIO_R8 BSP_BIT32(8)
+#define SYSCONRCGCGPIO_R7 BSP_BIT32(7)
+#define SYSCONRCGCGPIO_R6 BSP_BIT32(6)
+#define SYSCONRCGCGPIO_R5 BSP_BIT32(5)
+#define SYSCONRCGCGPIO_R4 BSP_BIT32(4)
+#define SYSCONRCGCGPIO_R3 BSP_BIT32(3)
+#define SYSCONRCGCGPIO_R2 BSP_BIT32(2)
+#define SYSCONRCGCGPIO_R1 BSP_BIT32(1)
+#define SYSCONRCGCGPIO_R0 BSP_BIT32(0)
   uint32_t rcgcgpio;
+
+#define SYSCONRCGCDMA_R0 BSP_BIT32(0)
   uint32_t rcgcdma;
+
+#define SYSCONRCGCEPI_R0 BSP_BIT32(0)
   uint32_t rcgcepi;
+
+
+#define SYSCONRCGCHIB_R0 BSP_BIT32(0)
   uint32_t rcgchib;
+
+
+#define SYSCONRCGCUART_R7 BSP_BIT32(7)
+#define SYSCONRCGCUART_R6 BSP_BIT32(6)
+#define SYSCONRCGCUART_R5 BSP_BIT32(5)
+#define SYSCONRCGCUART_R4 BSP_BIT32(4)
+#define SYSCONRCGCUART_R3 BSP_BIT32(3)
+#define SYSCONRCGCUART_R2 BSP_BIT32(2)
+#define SYSCONRCGCUART_R1 BSP_BIT32(1)
+#define SYSCONRCGCUART_R0 BSP_BIT32(0)
   uint32_t rcgcuart;
+
+#define SYSCONRCGCSSI_R3 BSP_BIT32(3)
+#define SYSCONRCGCSSI_R2 BSP_BIT32(2)
+#define SYSCONRCGCSSI_R1 BSP_BIT32(1)
+#define SYSCONRCGCSSI_R0 BSP_BIT32(0)
   uint32_t rcgcssi;
+
+#define SYSCONRCGCI2C_R9 BSP_BIT32(9)
+#define SYSCONRCGCI2C_R8 BSP_BIT32(8)
+#define SYSCONRCGCI2C_R7 BSP_BIT32(7)
+#define SYSCONRCGCI2C_R6 BSP_BIT32(6)
+#define SYSCONRCGCI2C_R5 BSP_BIT32(5)
+#define SYSCONRCGCI2C_R4 BSP_BIT32(4)
+#define SYSCONRCGCI2C_R3 BSP_BIT32(3)
+#define SYSCONRCGCI2C_R2 BSP_BIT32(2)
+#define SYSCONRCGCI2C_R1 BSP_BIT32(1)
+#define SYSCONRCGCI2C_R0 BSP_BIT32(0)
   uint32_t rcgci2c;
 
   uint32_t reserved_29;
 
+#define SYSCONRCGCUSB_R0 BSP_BIT32(0)
   uint32_t rcgcusb;
+
+#define SYSCONRCGCEPHY_R0 BSP_BIT32(0)
   uint32_t rcgcephy;
+
+#define SYSCONRCGCCAN_R1 BSP_BIT32(1)
+#define SYSCONRCGCCAN_R0 BSP_BIT32(0)
   uint32_t rcgccan;
+
+#define SYSCONRCGCADC_R1 BSP_BIT32(1)
+#define SYSCONRCGCADC_R0 BSP_BIT32(0)
   uint32_t rcgcadc;
+
+#define SYSCONRCGCACMP_R0 BSP_BIT32(0)
   uint32_t rcgcacmp;
+
+#define SYSCONRCGCPWM_R0 BSP_BIT32(0)
   uint32_t rcgcpwm;
+
+#define SYSCONRCGCQEI_R0 BSP_BIT32(0)
   uint32_t rcgcqei;
 
   uint32_t reserved_30[4];
 
+#define SYSCONRCGCEEPROM_R0 BSP_BIT32(0)
   uint32_t rcgceeprom;
 
   uint32_t reserved_31[6];
 
+#define SYSCONRCGCCCM_R0 BSP_BIT32(0)
   uint32_t rcgcccm;
 
   uint32_t reserved_32[9];
 
+#define SYSCONRCGCMAC_R0 BSP_BIT32(0)
   uint32_t rcgcemac;
 
   uint32_t reserved_33[24];
@@ -733,8 +815,9 @@ uint32_t reserved_0[12];
 #define SYSCONDSLPCLKCFG_DSDIVORIDE_MSK BSP_MSK32(23, 28)
 #define SYSCONDSLPCLKCFG_DSOSCSRC(val) BSP_FLD32(val, 4, 6)
 #define SYSCONDSLPCLKCFG_DSOSCSRC_MSK BSP_MSK32(4, 6)
-*/
+
   uint32_t dslpclkcfg;
+*/
 } lm3s69xx_syscon;
 
 typedef struct {
@@ -851,5 +934,35 @@ typedef struct {
   uint32_t reserved_1;
   uint32_t cc;
 } lm3s69xx_ssi;
+
+typedef struct  {
+ uint32_t ctl;
+ uint32_t sync;
+ uint32_t enable;
+ uint32_t invert;
+ uint32_t fault;
+ uint32_t inten;
+ uint32_t ris;
+ uint32_t isc;
+ uint32_t status;
+ uint32_t faultval;
+ uint32_t enupd;
+
+ uint32_t reserved_0[997];
+ uint32_t pp;
+ uint32_t reserved_1;
+
+#define PWMCC_USEPWM BSP_BIT32(8)
+#define PWMCC_PWMDIV(val) BSP_FLD32(val, 0, 2)
+#define PWMCC_PWMDIV_DIV2_VAL 0
+#define PWMCC_PWMDIV_DIV4_VAL 1
+#define PWMCC_PWMDIV_DIV8_VAL 2
+#define PWMCC_PWMDIV_DIV16_VAL 3
+#define PWMCC_PWMDIV_DIV32_VAL 4
+#define PWMCC_PWMDIV_DIV64_VAL 5
+#define PWMCC_PWMDIV_MSK BSP_MSK32(0, 2)
+ uint32_t cc;
+
+} lm3s69xx_pwm;
 
 #endif /* LIBBSP_ARM_LM3S69XX_LM3S69XX_H */

@@ -134,10 +134,17 @@ static lm3s69xx_ssi_bus_entry ssi_0_bus = {
   .bus_number = 0,
   .idle_char = 0xffff,
   .io_configs = {
-#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM4F120) || defined(LM3S69XX_MCU_TM4C129E)
+#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM4F120)
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 2), /* CLK */
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 5), /* TX */
     LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_A, 4)  /* RX */
+#elif defined(LM3S69XX_MCU_TM4C129E)
+    LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 2), /* CLK */
+    LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 5), /* TX (XDAT0)  Bi-directional data pin 0 */
+    LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_A, 4),  /* RX (XDAT1)  Bi-directional data pin 1*/
+    LM3S69XX_PIN_SSI_XDAT2(LM3S69XX_PORT_A, 6), /* Bi-directional data pin 2 */
+    LM3S69XX_PIN_SSI_XDAT3(LM3S69XX_PORT_A, 7)  /* Bi-directional data pin 3 */
+
 #else
 #error No GPIO pin definitions for SSI 0
 #endif
@@ -156,10 +163,18 @@ static lm3s69xx_ssi_bus_entry ssi_1_bus = {
   .bus_number = 1,
   .idle_char = 0xffff,
   .io_configs = {
-#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM4F120) || defined(LM3S69XX_MCU_TM4C129E)
+#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM4F120)
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_E, 0), /* CLK */
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_E, 3), /* TX */
     LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_E, 2)  /* RX */
+
+#elif defined(LM3S69XX_MCU_TM4C129E)
+    LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_B, 5), /* CLK */
+    LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_E, 4), /* TX (XDAT0)  Bi-directional data pin 0 */
+    LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_E, 5),  /* RX (XDAT1)  Bi-directional data pin 1*/
+    LM3S69XX_PIN_SSI_XDAT2(LM3S69XX_PORT_D, 4), /* Bi-directional data pin 2 */
+    LM3S69XX_PIN_SSI_XDAT3(LM3S69XX_PORT_D, 5)  /* Bi-directional data pin 3 */
+
 #else
 #error No GPIO pin definitions for SSI 1
 #endif

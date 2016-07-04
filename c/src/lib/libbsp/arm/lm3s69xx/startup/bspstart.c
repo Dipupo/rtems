@@ -31,6 +31,7 @@ static void init_main_osc(void)
   uint32_t rsclkcfg = syscon->rsclkcfg;
   uint32_t ris = syscon->ris;
   uint32_t dsclkcfg = syscon->dsclkcfg;
+  uint32_t pwrtc = syscon->pwrtc;
 
 
   moscctl = (moscctl & ~(SYSCONMOSCCTL_NOXTAL | SYSCONMOSCCTL_PWRDN));
@@ -86,6 +87,11 @@ static void init_main_osc(void)
   rsclkcfg |= SYSCONRSCLKCFG_MEMTIMU; 
 
   syscon->rsclkcfg = rsclkcfg;
+
+  pwrtc = (pwrtc & ~SYSCONPWRTC_VDDA_UBOR);
+  pwrtc = (pwrtc & ~SYSCONPWRTC_VDD_UBOR);
+  syscon->pwrtc = pwrtc;
+
 
   lm3s69xx_syscon_delay_3x_clocks(16);
 
@@ -159,9 +165,18 @@ static void init_main_osc(void)
 
 static const lm3s69xx_gpio_config start_config_gpio[] = {
 #ifdef LM3S69XX_ENABLE_UART_0
-#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM4F120) || defined(LM3S69XX_MCU_TM4C129E)
+#if defined(LM3S69XX_MCU_LM3S3749) || defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM4F120)
   LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_A, 0),
   LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_A, 1),
+#elif defined(LM3S69XX_MCU_TM4C129E)
+  LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_A, 0),
+  LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_A, 1),
+  LM3S69XX_PIN_UART_RTS(LM3S69XX_PORT_H, 0),
+  LM3S69XX_PIN_UART_RI(LM3S69XX_PORT_K, 7),
+  LM3S69XX_PIN_UART_DTR(LM3S69XX_PORT_P, 2),
+  LM3S69XX_PIN_UART_DSR(LM3S69XX_PORT_H, 3),
+  LM3S69XX_PIN_UART_DCD(LM3S69XX_PORT_H, 2),
+  LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_H, 1),
 #else
 #error No GPIO pin configuration for UART 0
 #endif
@@ -182,8 +197,12 @@ static const lm3s69xx_gpio_config start_config_gpio[] = {
 #elif defined(LM3S69XX_MCU_TM4C129E)
   LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_B, 0),
   LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_B, 1),
-  LM3S69XX_PIN_UART_RTS(LM3S69XX_PORT_C, 4),
-  LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_C, 5),
+  LM3S69XX_PIN_UART_RTS(LM3S69XX_PORT_E, 0),
+  LM3S69XX_PIN_UART_RI(LM3S69XX_PORT_E, 4),
+  LM3S69XX_PIN_UART_DTR(LM3S69XX_PORT_E, 3),
+  LM3S69XX_PIN_UART_DSR(LM3S69XX_PORT_E, 1),
+  LM3S69XX_PIN_UART_DCD(LM3S69XX_PORT_E, 2),
+  LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_P, 3),
 #else
 #error No GPIO pin configuration for UART 1
 #endif
@@ -196,6 +215,11 @@ static const lm3s69xx_gpio_config start_config_gpio[] = {
 #elif defined(LM3S69XX_MCU_LM3S6965)
   LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_G, 0),
   LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_G, 1),
+#elif defined(LM3S69XX_MCU_TM4C129E)
+  LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_A, 6),
+  LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_A, 7),
+  LM3S69XX_PIN_UART_RTS(LM3S69XX_PORT_D, 6),
+  LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_D, 7),
 #else
 #error No GPIO pin configuration for UART 2
 #endif
@@ -213,15 +237,15 @@ static void init_gpio(void)
 #if LM3S69XX_NUM_GPIO_BLOCKS > 6
       | SYSCONGPIOHBCTL_PORTG
 #if LM3S69XX_NUM_GPIO_BLOCKS > 7
-      | SYSCONGPIOHBCTL_PORTH
+      | SYSCONGPIOHBCTL_PORTH 
 #endif
 #endif
       ;
-
 #endif /* LM3S69XX_USE_AHB_FOR_GPIO */
 
   lm3s69xx_gpio_set_config_array(start_config_gpio,
       sizeof(start_config_gpio) / sizeof(start_config_gpio[0]));
+
 }
 
 void bsp_start(void)
