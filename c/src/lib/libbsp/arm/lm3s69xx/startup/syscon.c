@@ -106,11 +106,11 @@ void lm3s69xx_syscon_enable_pwm_clock(unsigned int port, bool enable)
  */
  void lm3s69xx_pwm_set_pwmdiv(unsigned int div)
 {
-  volatile lm3s69xx_pwm *pwm = LM3S69XX_PWM;
+  volatile lm3s69xx_pwm *pwm = LM3S69XX_PWM_0;
   rtems_interrupt_level level;
 
   rtems_interrupt_disable(level);
- pwm->cc = (pwm->cc & ~PWMCC_PWMDIV_MSK) | PWMCC_PWMDIV(div)
+  pwm->cc = (pwm->cc & ~PWMCC_PWMDIV_MSK) | PWMCC_PWMDIV(div)
       | PWMCC_USEPWM;
   
   rtems_interrupt_enable(level);

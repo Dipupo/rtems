@@ -202,6 +202,14 @@ static const lm3s69xx_gpio_config start_config_gpio[] = {
   LM3S69XX_PIN_UART_DTR(LM3S69XX_PORT_E, 3),
   LM3S69XX_PIN_UART_DSR(LM3S69XX_PORT_E, 1),
   LM3S69XX_PIN_UART_DCD(LM3S69XX_PORT_E, 2),
+  LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_N, 1),
+  
+  LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_Q, 4),
+  LM3S69XX_PIN_UART_RTS(LM3S69XX_PORT_N, 0),
+  LM3S69XX_PIN_UART_RI(LM3S69XX_PORT_N, 5),
+  LM3S69XX_PIN_UART_DTR(LM3S69XX_PORT_N, 4),
+  LM3S69XX_PIN_UART_DSR(LM3S69XX_PORT_N, 3),
+  LM3S69XX_PIN_UART_DCD(LM3S69XX_PORT_N, 2),
   LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_P, 3),
 #else
 #error No GPIO pin configuration for UART 1
@@ -228,7 +236,8 @@ static const lm3s69xx_gpio_config start_config_gpio[] = {
 
 static void init_gpio(void)
 {
-/* #if LM3S69XX_USE_AHB_FOR_GPIO
+ #if !defined(LM3S69XX_MCU_TM4C129E)
+ #if LM3S69XX_USE_AHB_FOR_GPIO
   volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
 
   syscon->gpiohbctl |= SYSCONGPIOHBCTL_PORTA | SYSCONGPIOHBCTL_PORTB
@@ -240,8 +249,10 @@ static void init_gpio(void)
       | SYSCONGPIOHBCTL_PORTH 
 #endif
 #endif
+#endif
       ;
 #endif /* LM3S69XX_USE_AHB_FOR_GPIO */
+
 
   lm3s69xx_gpio_set_config_array(start_config_gpio,
       sizeof(start_config_gpio) / sizeof(start_config_gpio[0]));
