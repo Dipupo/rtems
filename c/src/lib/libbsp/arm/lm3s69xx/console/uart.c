@@ -82,13 +82,14 @@ static void initialize(int minor)
 
   lm3s69xx_syscon_enable_uart_clock(num, true);
 
-  uart->ctl = 0;
+  uart->ctl = 0 ; //&= ~UARTCTL_UARTEN;
 
   uint32_t brd = get_baud_div(LM3S69XX_UART_BAUD);
   uart->ibrd = brd / 64;
   uart->fbrd = brd % 64;
 
   uart->lcrh = UARTLCRH_WLEN(0x3) | UARTLCRH_FEN;
+  uart->cc = UARTCC_CS(0x0);
   uart->ctl = UARTCTL_RXE | UARTCTL_TXE | UARTCTL_UARTEN;
 
   int rv = rtems_interrupt_handler_install(ct->ulIntVector, "UART",

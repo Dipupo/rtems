@@ -34,7 +34,13 @@ static void set_config(unsigned int pin, const lm3s69xx_gpio_config *config)
   lm3s69xx_syscon_enable_gpio_clock(port, true);
 
   /* Disable digital and analog functions before reconfiguration. */
-  set_bit(&gpio->den, index, 0);
+  
+  uint32_t den = gpio->den;
+
+  den &= ~(GPIODEN_DEN(0xFFFF));
+
+  gpio->den = den;
+  //set_bit(&gpio->den, index, 0);
   set_bit(&gpio->amsel, index, 0);
 
   set_bit(&gpio->afsel, index, config->alternate);

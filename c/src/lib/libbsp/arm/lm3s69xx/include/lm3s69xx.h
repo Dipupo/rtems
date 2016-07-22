@@ -37,6 +37,8 @@
 
 #define LM3S69XX_SYSCON_BASE 0x400fe000
 
+#define LM3S69XX_PWM_0_BASE 0x40028000
+
 #define LM3S69XX_UART_0_BASE 0x4000c000
 #define LM3S69XX_UART_1_BASE 0x4000d000
 #define LM3S69XX_UART_2_BASE 0x4000e000
@@ -105,6 +107,8 @@
 
 #define LM3S69XX_SYSCON ((volatile lm3s69xx_syscon *)LM3S69XX_SYSCON_BASE)
 
+#define LM3S69XX_PWM_0 ((volatile lm3s69xx_pwm *)(LM3S69XX_PWM_0_BASE))
+
 #define LM3S69XX_PLL_FREQUENCY 480000000U
 
 typedef struct  {
@@ -117,10 +121,13 @@ typedef struct  {
   uint32_t ris;
   uint32_t mis;
   uint32_t icr;
+
+#define GPIOAFSEL_AFSEL(val) BSP_FLD32(val, 0, 7)
   uint32_t afsel;
 
   uint32_t reserved_0[55];
 
+#define GPIODR2R_DRV2(val) BSP_FLD32(val, 0, 7)
   uint32_t dr2r;
   uint32_t dr4r;
   uint32_t dr8r;
@@ -128,10 +135,22 @@ typedef struct  {
   uint32_t pur;
   uint32_t pdr;
   uint32_t slr;
+
+#define GPIODEN_DEN(val) BSP_FLD32(val, 0, 7)
+#define GPIODEN_DEN_MSK BSP_MSK32(0, 7)
   uint32_t den;
   uint32_t lock;
   uint32_t cr;
   uint32_t amsel;
+
+#define GPIOPCTL_PMC7(val) BSP_FLD32(val, 28, 31)
+#define GPIOPCTL_PMC6(val) BSP_FLD32(val, 24, 27)
+#define GPIOPCTL_PMC5(val) BSP_FLD32(val, 20, 23)
+#define GPIOPCTL_PMC4(val) BSP_FLD32(val, 16, 19)
+#define GPIOPCTL_PMC3(val) BSP_FLD32(val, 12, 15)
+#define GPIOPCTL_PMC2(val) BSP_FLD32(val, 8, 11)
+#define GPIOPCTL_PMC1(val) BSP_FLD32(val, 4, 7)
+#define GPIOPCTL_PMC0(val) BSP_FLD32(val, 0, 3)
   uint32_t pctl;
   uint32_t adcctl;
   uint32_t damctl;
@@ -215,8 +234,8 @@ uint32_t reserved_0[12];
 #define SYSCONMOSCCTL_NOXTAL BSP_BIT32(2)
 #define SYSCONMOSCCTL_MOSCIM BSP_BIT32(1)
 #define SYSCONMOSCCTL_CVAL BSP_BIT32(0)
-
   uint32_t moscctl;
+
   uint32_t reserved_3[12];
 
 #define SYSCONRSCLKCFG_MEMTIMU BSP_BIT32(31)
@@ -832,12 +851,15 @@ typedef struct {
 
   uint32_t rsr_ecr;
   uint32_t reserved_0[4];
-
+#define UARTFR_RI BSP_BIT32(8)
 #define UARTFR_TXFE BSP_BIT32(7)
 #define UARTFR_RXFF BSP_BIT32(6)
 #define UARTFR_TXFF BSP_BIT32(5)
 #define UARTFR_RXFE BSP_BIT32(4)
 #define UARTFR_BUSY BSP_BIT32(3)
+#define UARTFR_DCD BSP_BIT32(2)
+#define UARTFR_DSR BSP_BIT32(1)
+#define UARTFR_CTS BSP_BIT32(0)
   uint32_t fr;
 
   uint32_t reserved_1;
@@ -887,6 +909,8 @@ typedef struct {
   uint32_t reserved_3[965];
   uint32_t pp;
   uint32_t reserved_4;
+
+#define UARTCC_CS(val) BSP_FLD32(val, 0, 3)
   uint32_t cc;
 } lm3s69xx_uart;
 

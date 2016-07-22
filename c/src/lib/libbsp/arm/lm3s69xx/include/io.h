@@ -52,7 +52,7 @@ typedef enum {
 
 typedef enum {
   LM3S69XX_GPIO_DIGITAL_DISABLE,
-  LM3S69XX_GPIO_DIGITAL_ENABLE,
+  LM3S69XX_GPIO_DIGITAL_ENABLE
 } lm3s69xx_gpio_digital;
 
 typedef enum {
