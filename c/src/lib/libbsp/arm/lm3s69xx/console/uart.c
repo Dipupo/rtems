@@ -82,7 +82,7 @@ static void initialize(int minor)
 
   lm3s69xx_syscon_enable_uart_clock(num, true);
 
-  uart->ctl = 0 ; //&= ~UARTCTL_UARTEN;
+  uart->ctl &= ~UARTCTL_UARTEN;
 
   uint32_t brd = get_baud_div(LM3S69XX_UART_BAUD);
   uart->ibrd = brd / 64;
