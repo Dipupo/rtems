@@ -121,13 +121,8 @@ typedef struct  {
   uint32_t ris;
   uint32_t mis;
   uint32_t icr;
-
-#define GPIOAFSEL_AFSEL(val) BSP_FLD32(val, 0, 7)
   uint32_t afsel;
-
   uint32_t reserved_0[55];
-
-#define GPIODR2R_DRV2(val) BSP_FLD32(val, 0, 7)
   uint32_t dr2r;
   uint32_t dr4r;
   uint32_t dr8r;
@@ -135,15 +130,16 @@ typedef struct  {
   uint32_t pur;
   uint32_t pdr;
   uint32_t slr;
-
+/*
 #define GPIODEN_DEN(val) BSP_FLD32(val, 0, 7)
 #define GPIODEN_DEN_MSK BSP_MSK32(0, 7)
+ */ 
   uint32_t den;
   uint32_t lock;
   uint32_t cr;
   uint32_t amsel;
 
-#define GPIOPCTL_PMC7(val) BSP_FLD32(val, 28, 31)
+/* #define GPIOPCTL_PMC7(val) BSP_FLD32(val, 28, 31)
 #define GPIOPCTL_PMC6(val) BSP_FLD32(val, 24, 27)
 #define GPIOPCTL_PMC5(val) BSP_FLD32(val, 20, 23)
 #define GPIOPCTL_PMC4(val) BSP_FLD32(val, 16, 19)
@@ -151,6 +147,7 @@ typedef struct  {
 #define GPIOPCTL_PMC2(val) BSP_FLD32(val, 8, 11)
 #define GPIOPCTL_PMC1(val) BSP_FLD32(val, 4, 7)
 #define GPIOPCTL_PMC0(val) BSP_FLD32(val, 0, 3)
+*/
   uint32_t pctl;
   uint32_t adcctl;
   uint32_t damctl;
@@ -171,30 +168,10 @@ typedef struct {
   uint32_t did1;
 
 uint32_t reserved_0[12];
-/*  uint32_t dc0;
-  uint32_t reserved_0;
-  uint32_t dc1;
-  uint32_t dc2;
-  uint32_t dc3;
-  uint32_t dc4;
-  uint32_t dc5;
-  uint32_t dc6;
-  uint32_t dc7;
-  uint32_t reserved_1;
-*/
+
 #define SYSCONPBORCTL_BORIOR BSP_BIT32(1)
   uint32_t pborctl;
 
-/* #define SYSCONLDOPCTL_VADJ(val) BSP_FLD32(val, 0, 5)
-#define SYSCONLDOPCTL_VADJ_MASK BSP_MSK32(0, 5)
-  uint32_t ldopctl;
-
-  uint32_t reserved_2[2];
-
-  uint32_t srcr0;
-  uint32_t srcr1;
-  uint32_t srcr2;
-*/
   uint32_t reserved_1[5];
 
 #define SYSCONRIS_MOSCPUPRIS BSP_BIT32(8)
@@ -268,18 +245,7 @@ uint32_t reserved_0[12];
 
   uint32_t memtim0;
 
-  uint32_t reserved_5[15];
-#define SYSCONRCGC0_PWM BSP_BIT32(20)
-#define SYSCONRCGC0_ADC BSP_BIT32(16)
-#define SYSCONRCGC0_MAXADCSPD(val) BSP_FLD32(val, 8, 9)
-#define SYSCONRCGC0_MAXADCSPD_MSK BSP_MSK32(8, 9)
-#define SYSCONRCGC0_HIB BSP_BIT32(6)
-#define SYSCONRCGC0_WDT BSP_BIT32(3)
-  uint32_t rcgc0;
-  uint32_t rcgc1;
-  uint32_t rcgc2;
-
-  uint32_t reserved_6[11];
+  uint32_t reserved_5[29];
 
   
   uint32_t altclkcfg;
@@ -421,6 +387,7 @@ uint32_t reserved_0[12];
   uint32_t reserved_25;
 
   uint32_t srusb;
+  uint32_t reserved_6;
   uint32_t srephy;
   uint32_t srcan;
   uint32_t sradc;
@@ -432,7 +399,7 @@ uint32_t reserved_0[12];
 
   uint32_t sreeprom;
 
-  uint32_t reserved_27[24];
+  uint32_t reserved_27[6];
 
   uint32_t srccm;
 
@@ -440,6 +407,7 @@ uint32_t reserved_0[12];
 
   uint32_t sremac;
 
+  uint32_t reserved_58[24];
 #define SYSCONRCGCWD_R1 BSP_BIT32(1)
 #define SYSCONRCGCWD_R0 BSP_BIT32(0)
   uint32_t rcgcwd;

@@ -138,7 +138,7 @@ static lm3s69xx_ssi_bus_entry ssi_0_bus = {
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 2), /* CLK */
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 5), /* TX */
     LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_A, 4)  /* RX */
-#elif defined(LM3S69XX_MCU_TM4C129E)
+#if defined(LM3S69XX_MCU_TM4C129E)
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 2), /* CLK */
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_A, 5), /* TX (XDAT0)  Bi-directional data pin 0 */
     LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_A, 4),  /* RX (XDAT1)  Bi-directional data pin 1*/
@@ -147,6 +147,7 @@ static lm3s69xx_ssi_bus_entry ssi_0_bus = {
 
 #else
 #error No GPIO pin definitions for SSI 0
+#endif
 #endif
   }
 };
@@ -168,7 +169,7 @@ static lm3s69xx_ssi_bus_entry ssi_1_bus = {
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_E, 3), /* TX */
     LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_E, 2)  /* RX */
 
-#elif defined(LM3S69XX_MCU_TM4C129E)
+#if defined(LM3S69XX_MCU_TM4C129E)
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_B, 5), /* CLK */
     LM3S69XX_PIN_SSI_TX(LM3S69XX_PORT_E, 4), /* TX (XDAT0)  Bi-directional data pin 0 */
     LM3S69XX_PIN_SSI_RX(LM3S69XX_PORT_E, 5),  /* RX (XDAT1)  Bi-directional data pin 1*/
@@ -177,6 +178,7 @@ static lm3s69xx_ssi_bus_entry ssi_1_bus = {
 
 #else
 #error No GPIO pin definitions for SSI 1
+#endif
 #endif
   }
 };
