@@ -94,73 +94,6 @@ static void init_main_osc(void)
 
 
   lm3s69xx_syscon_delay_3x_clocks(16);
-
-
- /* volatile lm3s69xx_syscon *syscon = LM3S69XX_SYSCON;
-
-  uint32_t sysdiv_val = LM3S69XX_PLL_FREQUENCY / LM3S69XX_SYSTEM_CLOCK;
-#if defined(LM3S69XX_MCU_LM3S6965) || defined(LM3S69XX_MCU_LM3S3749)
-  assert(sysdiv_val * LM3S69XX_SYSTEM_CLOCK == LM3S69XX_PLL_FREQUENCY);
-#endif
-  assert((sysdiv_val >= 4) && (sysdiv_val <= 16));
-
-  uint32_t rcc = syscon->rcc;
-  uint32_t rcc2 = syscon->rcc2;
-
-  rcc = (rcc & ~SYSCONRCC_USESYSDIV) | SYSCONRCC_BYPASS;
-  rcc2 |= SYSCONRCC2_BYPASS2;
-
-  syscon->rcc = rcc;
-  syscon->rcc2 = rcc2;
-
-
-
-  /*
-   As per a note in Stellaris® LM4F120H5QR Microcontroller Data
-   Sheet on page 219: "When transitioning the system clock
-   configuration to use the MOSC as the fundamental clock source, the
-   MOSCDIS bit must be set prior to reselecting the MOSC or an
-   undefined system clock configuration can sporadically occur."
-  
-
-  rcc |= SYSCONRCC_MOSCDIS;
-  syscon->rcc = rcc;
-
-  rcc = (rcc & ~(SYSCONRCC_XTAL_MSK))
-      | SYSCONRCC_XTAL(LM3S69XX_XTAL_CONFIG);
-  rcc2 = (rcc2 & ~(SYSCONRCC2_PWRDN2 | SYSCONRCC2_OSCSRC2_MSK))
-      | SYSCONRCC2_USERCC2 | SYSCONRCC2_OSCSRC2(0x0);
-
-  /* clear PLL lock interrupt 
-  syscon->misc &= (SYSCONMISC_PLLLMIS);
-
-  syscon->rcc = rcc;
-  syscon->rcc2 = rcc2;
-  lm3s69xx_syscon_delay_3x_clocks(16);
-
-  /* since now, we'll use only RCC2 as SYSCONRCC2_USERCC2 and XTAL
-     (only available in RCC) are already set/
-
-  if (sysdiv_val % 2 == 0) {
-      rcc2 = (rcc2 & ~SYSCONRCC2_SYSDIV2_MSK) | SYSCONRCC2_SYSDIV2(sysdiv_val / 2 - 1);
-
-      rcc2 &= ~(SYSCONRCC2_DIV400);
-  }
-  else {
-      /* need to use DIV400 *
-      rcc2 = (rcc2 & ~SYSCONRCC2_SYSDIV2EXT_MSK) | SYSCONRCC2_SYSDIV2EXT(sysdiv_val - 1)
-          | SYSCONRCC2_DIV400;
-  }
-  syscon->rcc2 = rcc2;
-
-  while ((syscon->ris & SYSCONRIS_PLLLRIS) == 0)
-      /* Wait for PLL lock *;
-
-  rcc2 &= ~(SYSCONRCC2_BYPASS2);
-
-  syscon->rcc2 = rcc2;
-  lm3s69xx_syscon_delay_3x_clocks(16);
-*/
 }
 
 static const lm3s69xx_gpio_config start_config_gpio[] = {
@@ -233,6 +166,18 @@ static const lm3s69xx_gpio_config start_config_gpio[] = {
 #error No GPIO pin configuration for UART 2
 #endif
 #endif /* LM3S69XX_ENABLE_UART_2 */
+
+
+#ifdef LM3S69XX_ENABLE_UART_3
+#if defined(LM3S69XX_MCU_TM4C129E)
+  LM3S69XX_PIN_UART_RX(LM3S69XX_PORT_A, 4),
+  LM3S69XX_PIN_UART_TX(LM3S69XX_PORT_A, 5),
+  LM3S69XX_PIN_UART_RTS(LM3S69XX_PORT_P, 4),
+  LM3S69XX_PIN_UART_CTS(LM3S69XX_PORT_P, 5),
+#else
+#error No GPIO pin configuration for UART 3
+#endif
+#endif /* LM3S69XX_ENABLE_UART_3 */
 };
 
 static void init_gpio(void)

@@ -55,6 +55,17 @@ console_tbl Console_Configuration_Ports [] = {
       .ulClock = LM3S69XX_UART_BAUD,
       .ulIntVector = LM3S69XX_IRQ_UART_2,
       .pDeviceParams = (void *)2
+    },
+  #endif
+ #ifdef LM3S69XX_ENABLE_UART_3
+    {
+      .sDeviceName = "/dev/ttyS3",
+      .deviceType = SERIAL_CUSTOM,
+      .pDeviceFns = &lm3s69xx_uart_fns,
+      .ulCtrlPort1 = LM3S69XX_UART_3_BASE,
+      .ulClock = LM3S69XX_UART_BAUD,
+      .ulIntVector = LM3S69XX_IRQ_UART_3,
+      .pDeviceParams = (void *)3
     }
   #endif
 };
